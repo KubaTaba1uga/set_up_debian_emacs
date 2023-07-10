@@ -12,15 +12,9 @@
 (setq lsp-pylsp-plugins-ruff-lineLength 88)
 (setq lsp-pylsp-plugins-isort-enabled t)
 
-(setq lsp-ui-doc-enable t)
-(setq lsp-eldoc-enable-hover nil)
+(setq lsp-ui-doc-enable nil)
+(setq lsp-eldoc-enable-hover t)
 (setq lsp-eldoc-render-all t)
-(setq lsp-ui-doc-show-with-cursor t)
-(setq lsp-ui-doc-include-signature t)
-(setq lsp-ui-doc-header t)
-(setq lsp-ui-doc-max-width 90)
-(setq lsp-ui-doc-max-height 50)
-(setq lsp-ui-doc-position 'top)
 
 (setq lsp-ui-sideline-enable t)
 (setq lsp-ui-sideline-show-hover nil)
@@ -31,8 +25,8 @@
 (global-set-key (kbd "C-z") 'lsp-ui-doc-focus-frame)
 
 (setq lsp-diagnostics-provider :flycheck)
-;(setq lsp-completion-show-detail t)
-;(setq lsp-completion-show-kind t)
+(setq lsp-completion-show-detail t)
+(setq lsp-completion-show-kind t)
 
 
 
