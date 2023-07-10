@@ -84,9 +84,26 @@
 ; custom undo
 (global-set-key (kbd "C-z") 'undo)
 
+; navigate threw errors
+  (defun my-next-error () 
+    "Move point to next error and highlight it"
+    (interactive)
+    (progn
+      (flycheck-next-error)
+      (forward-word)
+      )
+  )
+  (defun my-prev-error () 
+    "Move point to prev error and highlight it"
+    (interactive)
+    (progn
+      (flycheck-next-error)
+      (backward-word)
+      )
+  )
 ; custom error nav
-(global-set-key (kbd "M-n") 'flycheck-next-error)
-(global-set-key (kbd "M-p") 'flycheck-previous-error)
+(global-set-key (kbd "M-n") 'my-next-error)
+(global-set-key (kbd "M-p") 'my-prev-error)
 
 ; custom commenting
 (defun toggle-comment ()
@@ -142,3 +159,10 @@
 ; enable snippets completetion
 (require 'yasnippet)
 (yas-global-mode 1)
+
+; display errors in small pop-up window
+(require 'pos-tip)
+(eval-after-load 'flycheck
+ (if (display-graphic-p)
+     (flycheck-pos-tip-mode)
+   (flycheck-popup-tip-mode)))
