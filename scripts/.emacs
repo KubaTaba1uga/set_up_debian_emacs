@@ -32,7 +32,8 @@
 (setq lsp-pylsp-plugins-black-enabled t)
 (setq lsp-pylsp-plugins-ruff-enabled t)
 (setq lsp-pylsp-plugins-mypy-enabled t)
-
+(setq lsp-pylsp-plugins-ruff-lineLength 88)
+(setq lsp-pylsp-plugins-isort-enabled t)
 ; to log issues with lsp servers
 ;; lsp-toggle-trace-io + lsp-workspace-show-log 
 
