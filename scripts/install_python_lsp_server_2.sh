@@ -16,5 +16,6 @@ $EMACS_PYTHON_PATH -m pip install black ruff mypy isort rope
 
 cp scripts/.emacs ~/.emacs
 
+echo "export LSP_USE_PLISTS=true" >> ~/.bashrc
 
 

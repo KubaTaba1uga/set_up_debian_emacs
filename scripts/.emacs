@@ -5,8 +5,39 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;; configure LSP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;       
 (setq lsp-pylsp-server-command "/home/taba1uga/.emacs.venv/bin/pylsp")
 
+(setq lsp-use-plists t)
+(setq lsp-pylsp-plugins-black-enabled t)
+(setq lsp-pylsp-plugins-ruff-enabled t)
+(setq lsp-pylsp-plugins-mypy-enabled t)
+(setq lsp-pylsp-plugins-ruff-lineLength 88)
+(setq lsp-pylsp-plugins-isort-enabled t)
+
+(setq lsp-ui-doc-enable t)
+(setq lsp-eldoc-enable-hover nil)
+(setq lsp-eldoc-render-all t)
+(setq lsp-ui-doc-show-with-cursor t)
+(setq lsp-ui-doc-include-signature t)
+(setq lsp-ui-doc-header t)
+(setq lsp-ui-doc-max-width 90)
+(setq lsp-ui-doc-max-height 50)
+(setq lsp-ui-doc-position 'top)
+
+(setq lsp-ui-sideline-enable t)
+(setq lsp-ui-sideline-show-hover nil)
+(setq lsp-ui-sideline-ignore-duplicate t)
+(setq lsp-ui-sideline-show-code-actions t)
+(setq lsp-ui-sideline-show-diagnostics t)
+
+(global-set-key (kbd "C-z") 'lsp-ui-doc-focus-frame)
+
+(setq lsp-diagnostics-provider :flycheck)
+;(setq lsp-completion-show-detail t)
+;(setq lsp-completion-show-kind t)
+
+
+
 (setq package-selected-packages '(lsp-mode yasnippet lsp-treemacs helm-lsp
-    projectile hydra flycheck company which-key dap-mode))
+    projectile hydra flycheck company which-key dap-mode lsp-ui))
 
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
   (package-refresh-contents)
@@ -21,21 +52,17 @@
       read-process-output-max (* 1024 1024)
       treemacs-space-between-root-nodes nil
       company-idle-delay 0.0
-      company-minimum-prefix-length 1
-      lsp-idle-delay 0.1)  ;; clangd is fast                                                          
+      company-minimum-prefix-length 0
+      lsp-idle-delay 0.1)  ;; clangd is fast
 
 (with-eval-after-load 'lsp-mode
   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
   (require 'dap-cpptools)
   (yas-global-mode))
 
-(setq lsp-pylsp-plugins-black-enabled t)
-(setq lsp-pylsp-plugins-ruff-enabled t)
-(setq lsp-pylsp-plugins-mypy-enabled t)
-(setq lsp-pylsp-plugins-ruff-lineLength 88)
-(setq lsp-pylsp-plugins-isort-enabled t)
+
 ; to log issues with lsp servers
-;; lsp-toggle-trace-io + lsp-workspace-show-log 
+;; lsp-toggle-trace-io + lsp-workspace-show-log
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
 
@@ -52,6 +79,5 @@
 (define-key global-map [remap execute-extended-command] #'helm-M-x)
 (define-key global-map [remap switch-to-buffer] #'helm-mini)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                                                                                                                                       
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
 
