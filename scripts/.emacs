@@ -29,6 +29,9 @@
   (require 'dap-cpptools)
   (yas-global-mode))
 
+; to log issues with lsp servers
+;; lsp-toggle-trace-io + lsp-workspace-show-log 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; configure HELM ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
