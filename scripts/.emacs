@@ -122,6 +122,7 @@
     (comment-or-uncomment-region
      (line-beginning-position)
      (line-end-position))))
+
 (global-set-key (kbd "<f1>") 'toggle-comment)
 
 (global-set-key (kbd "<f2>") 'view-buffer)
@@ -130,11 +131,16 @@
 
 (global-set-key (kbd "<f4>") 'eldoc-doc-buffer)
 
+;; Open terminal
+(global-set-key [f5] '(lambda () (interactive) (term (getenv "SHELL"))))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; configure LOOK ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
 
-(setq package-selected-packages '(powerline flycheck-color-mode-line))
+(setq package-selected-packages '(powerline flycheck-color-mode-line pos-tip flycheck-pos-tip flycheck-popup-tip))
 
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
   (package-refresh-contents)
@@ -166,3 +172,6 @@
  (if (display-graphic-p)
      (flycheck-pos-tip-mode)
    (flycheck-popup-tip-mode)))
+
+; turn Yes or No into y or n
+(defalias 'yes-or-no-p 'y-or-n-p)
