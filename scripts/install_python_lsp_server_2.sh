@@ -8,8 +8,9 @@ sudo apt-get install -y virtualenv
 
 virtualenv $EMACS_VIRTUALENV_PATH
 
-$EMACS_PYTHON_PATH -m pip install python-lsp-server 
+$EMACS_PYTHON_PATH -m pip install python-lsp-server==1.7.4 
 
+cp scripts/.emacs ~/.emacs
 
 
 
