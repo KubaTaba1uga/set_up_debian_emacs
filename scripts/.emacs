@@ -2,6 +2,10 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
+; start using environment variables
+(package-install 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;; configure LSP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;       
 (setq lsp-pylsp-server-command "/home/taba1uga/.emacs.venv/bin/pylsp")
 
@@ -11,6 +15,7 @@
 (setq lsp-pylsp-plugins-mypy-enabled t)
 (setq lsp-pylsp-plugins-ruff-lineLength 88)
 (setq lsp-pylsp-plugins-isort-enabled t)
+(setq lsp-pylsp-plugins-flake8-enabled nil)
 
 (setq lsp-ui-doc-enable nil)
 (setq lsp-eldoc-enable-hover t)
@@ -22,16 +27,15 @@
 (setq lsp-ui-sideline-show-code-actions t)
 (setq lsp-ui-sideline-show-diagnostics t)
 
-(global-set-key (kbd "C-z") 'lsp-ui-doc-focus-frame)
+(setq lsp-headerline-breadcrumb-enable nil)
 
 (setq lsp-diagnostics-provider :flycheck)
 (setq lsp-completion-show-detail t)
 (setq lsp-completion-show-kind t)
 
 
-
 (setq package-selected-packages '(lsp-mode yasnippet lsp-treemacs helm-lsp
-    projectile hydra flycheck company which-key dap-mode lsp-ui))
+    projectile hydra flycheck company which-key dap-mode lsp-ui yascroll))
 
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
   (package-refresh-contents)
@@ -54,6 +58,7 @@
   (require 'dap-cpptools)
   (yas-global-mode))
 
+(global-yascroll-bar-mode 1)
 
 ; to log issues with lsp servers
 ;; lsp-toggle-trace-io + lsp-workspace-show-log
@@ -75,3 +80,65 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
 
+;;;;;;;;;;;;;;;;;;;;;;;;; configure KEYS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+; custom undo
+(global-set-key (kbd "C-z") 'undo)
+
+; custom error nav
+(global-set-key (kbd "M-n") 'flycheck-next-error)
+(global-set-key (kbd "M-p") 'flycheck-previous-error)
+
+; custom commenting
+(defun toggle-comment ()
+  "Toggle comments on the current line or highlighted region."
+  (interactive)
+  (if mark-active
+      (let ((mark (mark))
+            (point (point)))
+        (if (> (mark) (point))
+            (comment-or-uncomment-region
+             point
+             mark)
+          (comment-or-uncomment-region
+           mark
+           point)))
+    (comment-or-uncomment-region
+     (line-beginning-position)
+     (line-end-position))))
+(global-set-key (kbd "<f1>") 'toggle-comment)
+
+(global-set-key (kbd "<f2>") 'view-buffer)
+
+(global-set-key (kbd "<f3>") 'lsp-treemacs-errors-list)
+
+(global-set-key (kbd "<f4>") 'eldoc-doc-buffer)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+
+;;;;;;;;;;;;;;;;;;;;;;;;; configure LOOK ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
+
+(setq package-selected-packages '(powerline flycheck-color-mode-line))
+
+(when (cl-find-if-not #'package-installed-p package-selected-packages)
+  (package-refresh-contents)
+  (mapc #'package-install package-selected-packages))
+
+
+; set bottom line 
+(require 'powerline)
+(powerline-default-theme)
+; add bottom line colors
+(require 'flycheck-color-mode-line)
+(eval-after-load "flycheck"
+  '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+
+;;;;;;;;;;;;;;;;;;;;;;;;; configure GLOBAL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
+
+; enable auto paranthesis completion
+(electric-pair-mode 1)
+
+; enable snippets completetion
+(require 'yasnippet)
+(yas-global-mode 1)
