@@ -29,6 +29,10 @@
   (require 'dap-cpptools)
   (yas-global-mode))
 
+(setq lsp-pylsp-plugins-black-enabled t)
+(setq lsp-pylsp-plugins-ruff-enabled t)
+(setq lsp-pylsp-plugins-mypy-enabled t)
+
 ; to log issues with lsp servers
 ;; lsp-toggle-trace-io + lsp-workspace-show-log 
 
