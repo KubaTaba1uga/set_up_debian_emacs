@@ -134,7 +134,7 @@
 (global-set-key (kbd "<f4>") 'eldoc-doc-buffer)
 
 ;; Open terminal
-(global-set-key [f5] '(lambda () (interactive) (term (getenv "SHELL"))))
+(global-set-key (kbd "<f5>") '(lambda () (interactive) (term (getenv "SHELL"))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
@@ -142,12 +142,15 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; configure LOOK ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
 
-(setq package-selected-packages '(powerline flycheck-color-mode-line pos-tip flycheck-pos-tip flycheck-popup-tip))
+(setq package-selected-packages '(powerline flycheck-color-mode-line auto-dim-other-buffers monokai-theme shackle magit))
 
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
   (package-refresh-contents)
   (mapc #'package-install package-selected-packages))
 
+
+; enable theme
+(load-theme 'monokai t)
 
 ; set bottom line 
 (require 'powerline)
@@ -157,6 +160,37 @@
 (eval-after-load "flycheck"
   '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
 
+; turn Yes or No into y or n
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+; enable auto dimming not active frame
+;(auto-dim-other-buffers-mode 1)
+
+; enable theme
+(load-theme 'monokai t)
+
+; set helm window size
+(setq helm-display-buffer-default-height 12)  
+
+; hide unnecessary helm lines
+(defadvice helm-display-mode-line (after undisplay-header activate)
+    (setq header-line-format nil))
+
+; set up mini buffers              
+;; helm
+(custom-set-faces
+ ;;; custom-set-faces was added by Custom.                                                            ;;; If you edit it by hand, you could mess it up, so be careful.                                     ;;; Your init file should contain only one such instance.                                            ;;; If there is more than one, they won't work right.                                               
+'(mode-line ((t (:foreground "white" :background "#ff006e" :box nil))))                              
+'(mode-line-inactive ((t (:foreground "white" :background "#800080" :box nil)))))            
+
+;; default                                                                                           
+;;; if not working move to the end of the file                                                       
+(add-hook 'minibuffer-setup-hook                                                                     
+      (lambda ()                                                                                     
+        (make-local-variable 'face-remapping-alist)                                                  
+        (add-to-list 'face-remapping-alist '(default (:background "orange" :foreground "black")))))  
+(set-face-background 'minibuffer-prompt "red")                                                                     
+   
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; configure GLOBAL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
@@ -168,12 +202,10 @@
 (require 'yasnippet)
 (yas-global-mode 1)
 
-; display errors in small pop-up window
-(require 'pos-tip)
-(eval-after-load 'flycheck
- (if (display-graphic-p)
-     (flycheck-pos-tip-mode)
-   (flycheck-popup-tip-mode)))
+(require 'shackle)
+(shackle-mode 1)
 
-; turn Yes or No into y or n
-(defalias 'yes-or-no-p 'y-or-n-p)
+; make helm window always on bottom
+(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
