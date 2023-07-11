@@ -8,11 +8,11 @@ sudo apt-get install -y virtualenv
 
 virtualenv $EMACS_VIRTUALENV_PATH
 
-# install lsp sevrer and extensions
+# install lsp server and extensions
 $EMACS_PYTHON_PATH -m pip install python-lsp-server==1.7.4 python-lsp-black python-lsp-ruff pylsp-mypy python-lsp-isort
 
 # install python packages
-$EMACS_PYTHON_PATH -m pip install black ruff mypy isort rope
+$EMACS_PYTHON_PATH -m pip install black ruff mypy isort
 
 cp scripts/.emacs ~/.emacs
 
