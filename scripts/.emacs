@@ -86,6 +86,9 @@
 ; custom undo
 (global-set-key (kbd "C-z") 'undo)
 
+; custom magit status
+(global-set-key (kbd "C-c g") 'magit-status)
+
 ; navigate threw errors
   (defun my-next-error () 
     "Move point to next error and highlight it"
@@ -207,5 +210,18 @@
 
 ; make helm window always on bottom
 (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;; configure PYTHON ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
+(require 'lsp-mode)
+(add-hook 'python-mode-hook #'lsp-deferred)
+
+(defun lsp-python-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+(add-hook 'python-mode-hook #'lsp-python-install-save-hooks)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
