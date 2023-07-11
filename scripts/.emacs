@@ -20,6 +20,7 @@
 (setq lsp-ui-doc-enable nil)
 (setq lsp-eldoc-enable-hover t)
 (setq lsp-eldoc-render-all t)
+(setq max-mini-window-height 10)
 
 (setq lsp-ui-sideline-enable t)
 (setq lsp-ui-sideline-show-hover nil)
