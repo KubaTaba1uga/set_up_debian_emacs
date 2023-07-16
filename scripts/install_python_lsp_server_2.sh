@@ -14,7 +14,7 @@ $EMACS_PYTHON_PATH -m pip install python-lsp-server==1.7.3 python-lsp-black pyth
 # install python packages
 $EMACS_PYTHON_PATH -m pip install black ruff mypy isort flake8
 
-cp scripts/.emacs ~/.emacs
+
 
 
 

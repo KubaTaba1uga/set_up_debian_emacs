@@ -8,6 +8,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; configure LSP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;       
 
+(setq lsp-clangd-binary-path "/usr/bin/clangd-15")
 (setq lsp-clients-pylsp-library-directories "/home/taba1uga/.emacs.venv/")
 (setq lsp-pylsp-server-command "/home/taba1uga/.emacs.venv/bin/pylsp")
 
