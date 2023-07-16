@@ -12,10 +12,10 @@ virtualenv $EMACS_VIRTUALENV_PATH
 $EMACS_PYTHON_PATH -m pip install python-lsp-server==1.7.3 python-lsp-black python-lsp-ruff pylsp-mypy python-lsp-isort
 
 # install python packages
-$EMACS_PYTHON_PATH -m pip install black ruff mypy isort
+$EMACS_PYTHON_PATH -m pip install black ruff mypy isort flake8
 
 cp scripts/.emacs ~/.emacs
 
-echo "export LSP_USE_PLISTS=true" >> ~/.bashrc
+
 
 

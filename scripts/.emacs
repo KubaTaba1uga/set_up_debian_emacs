@@ -7,9 +7,10 @@
 (exec-path-from-shell-initialize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;; configure LSP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;       
+
+(setq lsp-clients-pylsp-library-directories "/home/taba1uga/.emacs.venv/")
 (setq lsp-pylsp-server-command "/home/taba1uga/.emacs.venv/bin/pylsp")
 
-(setq lsp-use-plists t)
 (setq lsp-pylsp-plugins-black-enabled t)
 (setq lsp-pylsp-plugins-ruff-enabled t)
 (setq lsp-pylsp-plugins-mypy-enabled t)
@@ -212,6 +213,8 @@
 (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
 
 ; disable annoying warning messages
+(setq native-comp-async-report-warnings-errors 'silent)
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
