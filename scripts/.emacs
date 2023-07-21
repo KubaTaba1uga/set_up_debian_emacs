@@ -220,7 +220,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;; configure PYTHON ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
 (require 'lsp-mode)
 (add-hook 'python-mode-hook #'lsp-deferred)
@@ -232,3 +231,17 @@
 (add-hook 'python-mode-hook #'lsp-python-install-save-hooks)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+
+;;;;;;;;;;;;;;;;;;;;;;;;; configure C ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                                               
+(require 'lsp-mode)                                                                                                                         
+(add-hook 'c-mode-hook #'lsp-deferred)                                                                                                      
+                                                                                                                                            
+(defun lsp-c-install-save-hooks ()                                                                                                          
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)                                                                                      
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))                                                                                  
+                                                                                                                                            
+(add-hook 'c-mode-hook #'lsp-c-install-save-hooks)                                                                                          
+                                                                                                                                            
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                                            
+                                                                                                                                            
+
