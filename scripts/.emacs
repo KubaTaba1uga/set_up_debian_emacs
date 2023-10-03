@@ -1,3 +1,4 @@
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
@@ -6,7 +7,9 @@
 (package-install 'exec-path-from-shell)
 (exec-path-from-shell-initialize)
 
-;;;;;;;;;;;;;;;;;;;;;;;;; configure LSP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;       
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;; configure LSP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq lsp-clangd-binary-path "/usr/bin/clangd-15")
 (setq lsp-clients-pylsp-library-directories "/home/taba1uga/.emacs.venv/")
@@ -67,9 +70,9 @@
 ; to log issues with lsp servers
 ;; lsp-toggle-trace-io + lsp-workspace-show-log
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;; configure HELM ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+;;;;;;;;;;;;;;;;;;;;;;;;; configure HELM ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq package-selected-packages '(helm-xref))
 
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
@@ -82,17 +85,31 @@
 (define-key global-map [remap execute-extended-command] #'helm-M-x)
 (define-key global-map [remap switch-to-buffer] #'helm-mini)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;; configure KEYS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+;;;;;;;;;;;;;;;;;;;;;;;;; configure KEYS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; disable random exiting
+(global-set-key "\C-x\C-z" nil)
+(global-set-key (kbd "C-x C-z") nil)
+
 ; custom undo
 (global-set-key (kbd "C-z") 'undo)
 
 ; custom magit status
 (global-set-key (kbd "C-c g") 'magit-status)
 
+; find file
+(global-set-key (kbd "C-c f") 'find-name-dired)
+
+; resize window
+(global-set-key (kbd "C-c r") 'windresize)
+
+; custom magit status
+(global-set-key (kbd "C-c g") 'magit-status)
+
 ; navigate threw errors
-  (defun my-next-error () 
+  (defun my-next-error ()
     "Move point to next error and highlight it"
     (interactive)
     (progn
@@ -100,11 +117,11 @@
       (forward-word)
       )
   )
-  (defun my-prev-error () 
+  (defun my-prev-error ()
     "Move point to prev error and highlight it"
     (interactive)
     (progn
-      (flycheck-next-error)
+      (flycheck-prev-error)
       (backward-word)
       )
   )
@@ -142,12 +159,12 @@
 (global-set-key (kbd "<f5>") '(lambda () (interactive) (term (getenv "SHELL"))))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;; configure LOOK ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
+;;;;;;;;;;;;;;;;;;;;;;;;; configure LOOK ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq package-selected-packages '(powerline flycheck-color-mode-line auto-dim-other-buffers monokai-theme shackle magit))
+(setq package-selected-packages '(powerline flycheck-color-mode-line auto-dim-other-buffers monokai-theme shackle magit windresize))
 
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
   (package-refresh-contents)
@@ -157,7 +174,7 @@
 ; enable theme
 (load-theme 'monokai t)
 
-; set bottom line 
+; set bottom line
 (require 'powerline)
 (powerline-default-theme)
 ; add bottom line colors
@@ -175,30 +192,34 @@
 (load-theme 'monokai t)
 
 ; set helm window size
-(setq helm-display-buffer-default-height 12)  
+(setq helm-display-buffer-default-height 12)
 
 ; hide unnecessary helm lines
 (defadvice helm-display-mode-line (after undisplay-header activate)
     (setq header-line-format nil))
 
-; set up mini buffers              
+; set up mini buffers
 ;; helm
 (custom-set-faces
- ;;; custom-set-faces was added by Custom.                                                            ;;; If you edit it by hand, you could mess it up, so be careful.                                     ;;; Your init file should contain only one such instance.                                            ;;; If there is more than one, they won't work right.                                               
-'(mode-line ((t (:foreground "white" :background "#ff006e" :box nil))))                              
-'(mode-line-inactive ((t (:foreground "white" :background "#800080" :box nil)))))            
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(mode-line ((t (:foreground "white" :background "#ff006e" :box nil))))
+ '(mode-line-inactive ((t (:foreground "white" :background "#800080" :box nil)))))
 
-;; default                                                                                           
-;;; if not working move to the end of the file                                                       
-(add-hook 'minibuffer-setup-hook                                                                     
-      (lambda ()                                                                                     
-        (make-local-variable 'face-remapping-alist)                                                  
-        (add-to-list 'face-remapping-alist '(default (:background "orange" :foreground "black")))))  
-(set-face-background 'minibuffer-prompt "red")                                                                     
-   
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
 
-;;;;;;;;;;;;;;;;;;;;;;;;; configure GLOBAL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
+;; default
+;;; if not working move to the end of the file
+(add-hook 'minibuffer-setup-hook
+      (lambda ()
+        (make-local-variable 'face-remapping-alist)
+        (add-to-list 'face-remapping-alist '(default (:background "orange" :foreground "black")))))
+(set-face-background 'minibuffer-prompt "red")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;; configure GLOBAL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; enable auto paranthesis completion
 (electric-pair-mode 1)
@@ -211,16 +232,17 @@
 (shackle-mode 1)
 
 ; make helm window always on bottom
-(setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
+(setq shackle-rules '(("\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
 
 ; disable annoying warning messages
 (setq native-comp-async-report-warnings-errors 'silent)
 
+(global-linum-mode 1)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;; configure PYTHON ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;     
+;;;;;;;;;;;;;;;;;;;;;;;;; configure PYTHON ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'lsp-mode)
 (add-hook 'python-mode-hook #'lsp-deferred)
 
@@ -230,18 +252,141 @@
 
 (add-hook 'python-mode-hook #'lsp-python-install-save-hooks)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;      
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;; configure C ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                                               
-(require 'lsp-mode)                                                                                                                         
-(add-hook 'c-mode-hook #'lsp-deferred)                                                                                                      
-                                                                                                                                            
-(defun lsp-c-install-save-hooks ()                                                                                                          
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)                                                                                      
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))                                                                                  
-                                                                                                                                            
-(add-hook 'c-mode-hook #'lsp-c-install-save-hooks)                                                                                          
-                                                                                                                                            
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;                                            
-                                                                                                                                            
+;;;;;;;;;;;;;;;;;;;;;;;;; configure C ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'lsp-mode)
+(add-hook 'c-mode-hook #'lsp-deferred)
 
+(defun lsp-c-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t)
+  )
+
+(add-hook 'c-mode-hook #'lsp-c-install-save-hooks)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
+ '(package-selected-packages
+   '(dockerfile-mode yaml-mode meson-mode windresize powerline flycheck-color-mode-line auto-dim-other-buffers monokai-theme shackle magit)))
+taba1uga@development:~$
+
+(setq package-selected-packages '(powerline flycheck-color-mode-line auto-dim-other-buffers monokai-theme shackle magit windresize))
+
+(when (cl-find-if-not #'package-installed-p package-selected-packages)
+  (package-refresh-contents)
+  (mapc #'package-install package-selected-packages))
+
+
+; enable theme
+(load-theme 'monokai t)
+
+; set bottom line
+(require 'powerline)
+(powerline-default-theme)
+; add bottom line colors
+(require 'flycheck-color-mode-line)
+(eval-after-load "flycheck"
+  '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
+
+; turn Yes or No into y or n
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+; enable auto dimming not active frame
+;(auto-dim-other-buffers-mode 1)
+
+; enable theme
+(load-theme 'monokai t)
+
+; set helm window size
+(setq helm-display-buffer-default-height 12)
+
+; hide unnecessary helm lines
+(defadvice helm-display-mode-line (after undisplay-header activate)
+    (setq header-line-format nil))
+
+; set up mini buffers
+;; helm
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(mode-line ((t (:foreground "white" :background "#ff006e" :box nil))))
+ '(mode-line-inactive ((t (:foreground "white" :background "#800080" :box nil)))))
+
+
+;; default
+;;; if not working move to the end of the file
+(add-hook 'minibuffer-setup-hook
+      (lambda ()
+        (make-local-variable 'face-remapping-alist)
+        (add-to-list 'face-remapping-alist '(default (:background "orange" :foreground "black")))))
+(set-face-background 'minibuffer-prompt "red")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;; configure GLOBAL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; enable auto paranthesis completion
+(electric-pair-mode 1)
+
+; enable snippets completetion
+(require 'yasnippet)
+(yas-global-mode 1)
+
+(require 'shackle)
+(shackle-mode 1)
+
+; make helm window always on bottom
+(setq shackle-rules '(("\\*helm.*?\\*\\'" :regexp t :align t :ratio 0.4)))
+
+; disable annoying warning messages
+(setq native-comp-async-report-warnings-errors 'silent)
+
+(global-linum-mode 1)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;; configure PYTHON ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'lsp-mode)
+(add-hook 'python-mode-hook #'lsp-deferred)
+
+(defun lsp-python-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+(add-hook 'python-mode-hook #'lsp-python-install-save-hooks)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;; configure C ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'lsp-mode)
+(add-hook 'c-mode-hook #'lsp-deferred)
+
+(defun lsp-c-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t)
+  )
+
+(add-hook 'c-mode-hook #'lsp-c-install-save-hooks)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(bmkp-last-as-first-bookmark-file "~/.emacs.d/bookmarks")
+ '(package-selected-packages
+   '(dockerfile-mode yaml-mode meson-mode windresize powerline flycheck-color-mode-line auto-dim-other-buffers monokai-theme shackle magit)))
